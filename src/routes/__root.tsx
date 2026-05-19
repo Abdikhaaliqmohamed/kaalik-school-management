@@ -1,9 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext, useRouter, useRouterState, HeadContent, Scripts, Link } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
-import { RoleProvider } from "@/lib/role-context";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { Menu } from "@/components/Menu";
 import { Navbar } from "@/components/Navbar";
+import { Toaster } from "@/components/ui/sonner";
+import { useEffect } from "react";
 
 function NotFoundComponent() {
   return (
@@ -59,14 +61,21 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <RoleProvider><AppLayout /></RoleProvider>
+      <AuthProvider><AppLayout /><Toaster richColors position="top-right" /></AuthProvider>
     </QueryClientProvider>
   );
 }
 
 function AppLayout() {
+  const router = useRouter();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  if (pathname === "/sign-in" || pathname === "/") return <Outlet />;
+  const { user, loading } = useAuth();
+  const isPublic = pathname === "/sign-in" || pathname === "/";
+  useEffect(() => {
+    if (!loading && !user && !isPublic) router.navigate({ to: "/sign-in" });
+  }, [loading, user, isPublic, router]);
+  if (isPublic) return <Outlet />;
+  if (loading || !user) return <div className="min-h-screen grid place-items-center text-sm text-muted-foreground">Loading…</div>;
   return (
     <div className="flex h-screen w-full bg-page">
       <Menu />
