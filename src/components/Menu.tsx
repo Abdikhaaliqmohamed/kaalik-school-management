@@ -1,5 +1,5 @@
-import { Link, useRouterState } from "@tanstack/react-router";
-import { useRole } from "@/lib/role-context";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/lib/auth-context";
 import { roleLinks } from "@/lib/data";
 import {
   Home, Users, GraduationCap, UserCog, BookOpen, Layers, CalendarDays,
@@ -14,7 +14,8 @@ const iconFor: Record<string, any> = {
 };
 
 export function Menu() {
-  const { role, setRole } = useRole();
+  const { role, setRole, signOut } = useAuth();
+  const nav = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const links = roleLinks[role];
 
@@ -53,9 +54,12 @@ export function Menu() {
         <Link to="/settings" className="flex items-center gap-3 px-2.5 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted">
           <Settings className="w-4 h-4" /> Settings
         </Link>
-        <Link to="/sign-in" className="flex items-center gap-3 px-2.5 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted">
+        <button
+          onClick={async () => { await signOut(); nav({ to: "/sign-in" }); }}
+          className="flex items-center gap-3 px-2.5 py-2 rounded-md text-sm text-muted-foreground hover:bg-muted text-left"
+        >
           <LogOut className="w-4 h-4" /> Logout
-        </Link>
+        </button>
       </nav>
 
       <div className="mt-auto p-2">

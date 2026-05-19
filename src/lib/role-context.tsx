@@ -1,11 +1,8 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import type { Role } from "./data";
-
-type Ctx = { role: Role; setRole: (r: Role) => void };
-const RoleCtx = createContext<Ctx>({ role: "admin", setRole: () => {} });
-
-export function RoleProvider({ children }: { children: ReactNode }) {
-  const [role, setRole] = useState<Role>("admin");
-  return <RoleCtx.Provider value={{ role, setRole }}>{children}</RoleCtx.Provider>;
-}
-export const useRole = () => useContext(RoleCtx);
+// Back-compat shim: role state now lives in AuthProvider.
+import { ReactNode } from "react";
+import { useAuth } from "./auth-context";
+export function RoleProvider({ children }: { children: ReactNode }) { return <>{children}</>; }
+export const useRole = () => {
+  const { role, setRole } = useAuth();
+  return { role, setRole };
+};
