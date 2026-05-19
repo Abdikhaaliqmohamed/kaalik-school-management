@@ -7,7 +7,7 @@ const palette: Record<string, string> = {
   staff: "bg-lama-sky-light",
 };
 
-export function UserCard({ type, count }: { type: keyof typeof palette; count: number }) {
+export function UserCard({ type, count, label }: { type: keyof typeof palette; count: number; label?: string }) {
   return (
     <div className={`rounded-2xl p-4 flex-1 min-w-[150px] ${palette[type]}`}>
       <div className="flex items-center justify-between">
@@ -15,7 +15,7 @@ export function UserCard({ type, count }: { type: keyof typeof palette; count: n
         <MoreHorizontal className="w-4 h-4" />
       </div>
       <h2 className="text-2xl font-semibold my-3">{count.toLocaleString()}</h2>
-      <p className="text-sm capitalize text-foreground/70">{type}s</p>
+      <p className="text-sm capitalize text-foreground/70">{label ?? `${type}s`}</p>
     </div>
   );
 }
