@@ -51,27 +51,40 @@ export type Database = {
       }
       attendance: {
         Row: {
+          class_id: string | null
           created_at: string
           date: string
           id: string
           present: boolean
+          status: string
           student_id: string
         }
         Insert: {
+          class_id?: string | null
           created_at?: string
           date?: string
           id?: string
           present?: boolean
+          status?: string
           student_id: string
         }
         Update: {
+          class_id?: string | null
           created_at?: string
           date?: string
           id?: string
           present?: boolean
+          status?: string
           student_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "attendance_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "attendance_student_id_fkey"
             columns: ["student_id"]
@@ -112,6 +125,54 @@ export type Database = {
             columns: ["supervisor_id"]
             isOneToOne: false
             referencedRelation: "teachers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      exams: {
+        Row: {
+          class_id: string | null
+          created_at: string
+          exam_date: string
+          id: string
+          max_marks: number
+          subject_id: string | null
+          term: string
+          title: string
+        }
+        Insert: {
+          class_id?: string | null
+          created_at?: string
+          exam_date?: string
+          id?: string
+          max_marks?: number
+          subject_id?: string | null
+          term?: string
+          title: string
+        }
+        Update: {
+          class_id?: string | null
+          created_at?: string
+          exam_date?: string
+          id?: string
+          max_marks?: number
+          subject_id?: string | null
+          term?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exams_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exams_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
             referencedColumns: ["id"]
           },
         ]
@@ -183,6 +244,48 @@ export type Database = {
           photo_url?: string | null
         }
         Relationships: []
+      }
+      results: {
+        Row: {
+          comment: string | null
+          created_at: string
+          exam_id: string
+          id: string
+          marks: number
+          student_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          exam_id: string
+          id?: string
+          marks: number
+          student_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          exam_id?: string
+          id?: string
+          marks?: number
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "results_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "results_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       students: {
         Row: {
@@ -333,6 +436,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      current_parent_id: { Args: never; Returns: string }
+      current_student_id: { Args: never; Returns: string }
+      gpa_for_student: { Args: { _student_id: string }; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -340,6 +446,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_parent_of: { Args: { _student_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "teacher" | "student" | "parent"
