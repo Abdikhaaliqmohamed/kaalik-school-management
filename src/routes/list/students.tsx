@@ -7,12 +7,14 @@ import { Pencil, Trash2, Plus, Search } from "lucide-react";
 import { PersonFormModal, PersonValue } from "@/components/PersonFormModal";
 import { ConfirmDelete } from "@/components/ConfirmDelete";
 import { toast } from "sonner";
+import { useRoleGate } from "@/lib/use-role-gate";
 
 const PAGE = 10;
 
 export const Route = createFileRoute("/list/students")({ component: Page });
 
 function Page() {
+  const { allowed } = useRoleGate(["admin", "teacher"]);
   const qc = useQueryClient();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -44,6 +46,8 @@ function Page() {
 
   const total = data?.count ?? 0;
   const pages = Math.max(1, Math.ceil(total / PAGE));
+
+  if (!allowed) return null;
 
   const onDelete = async () => {
     if (!deleteId) return;
