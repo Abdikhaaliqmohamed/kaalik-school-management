@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as StudentRouteImport } from './routes/student'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -29,6 +30,11 @@ import { Route as ListAnnouncementsRouteImport } from './routes/list/announcemen
 const TeacherRoute = TeacherRouteImport.update({
   id: '/teacher',
   path: '/teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentRoute = StudentRouteImport.update({
+  id: '/student',
+  path: '/student',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
+  '/student': typeof StudentRoute
   '/teacher': typeof TeacherRoute
   '/list/announcements': typeof ListAnnouncementsRoute
   '/list/assignments': typeof ListAssignmentsRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
+  '/student': typeof StudentRoute
   '/teacher': typeof TeacherRoute
   '/list/announcements': typeof ListAnnouncementsRoute
   '/list/assignments': typeof ListAssignmentsRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
+  '/student': typeof StudentRoute
   '/teacher': typeof TeacherRoute
   '/list/announcements': typeof ListAnnouncementsRoute
   '/list/assignments': typeof ListAssignmentsRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/sign-in'
+    | '/student'
     | '/teacher'
     | '/list/announcements'
     | '/list/assignments'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/sign-in'
+    | '/student'
     | '/teacher'
     | '/list/announcements'
     | '/list/assignments'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/settings'
     | '/sign-in'
+    | '/student'
     | '/teacher'
     | '/list/announcements'
     | '/list/assignments'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   SettingsRoute: typeof SettingsRoute
   SignInRoute: typeof SignInRoute
+  StudentRoute: typeof StudentRoute
   TeacherRoute: typeof TeacherRoute
   ListAnnouncementsRoute: typeof ListAnnouncementsRoute
   ListAssignmentsRoute: typeof ListAssignmentsRoute
@@ -245,6 +258,13 @@ declare module '@tanstack/react-router' {
       path: '/teacher'
       fullPath: '/teacher'
       preLoaderRoute: typeof TeacherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student': {
+      id: '/student'
+      path: '/student'
+      fullPath: '/student'
+      preLoaderRoute: typeof StudentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -361,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   SettingsRoute: SettingsRoute,
   SignInRoute: SignInRoute,
+  StudentRoute: StudentRoute,
   TeacherRoute: TeacherRoute,
   ListAnnouncementsRoute: ListAnnouncementsRoute,
   ListAssignmentsRoute: ListAssignmentsRoute,
