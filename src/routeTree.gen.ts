@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListTeachersRouteImport } from './routes/list/teachers'
 import { Route as ListSubjectsRouteImport } from './routes/list/subjects'
 import { Route as ListStudentsRouteImport } from './routes/list/students'
+import { Route as ListResultsRouteImport } from './routes/list/results'
 import { Route as ListParentsRouteImport } from './routes/list/parents'
 import { Route as ListMessagesRouteImport } from './routes/list/messages'
 import { Route as ListLessonsRouteImport } from './routes/list/lessons'
@@ -83,6 +84,11 @@ const ListSubjectsRoute = ListSubjectsRouteImport.update({
 const ListStudentsRoute = ListStudentsRouteImport.update({
   id: '/list/students',
   path: '/list/students',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ListResultsRoute = ListResultsRouteImport.update({
+  id: '/list/results',
+  path: '/list/results',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListParentsRoute = ListParentsRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/list/lessons': typeof ListLessonsRoute
   '/list/messages': typeof ListMessagesRoute
   '/list/parents': typeof ListParentsRoute
+  '/list/results': typeof ListResultsRoute
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/list/lessons': typeof ListLessonsRoute
   '/list/messages': typeof ListMessagesRoute
   '/list/parents': typeof ListParentsRoute
+  '/list/results': typeof ListResultsRoute
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/list/lessons': typeof ListLessonsRoute
   '/list/messages': typeof ListMessagesRoute
   '/list/parents': typeof ListParentsRoute
+  '/list/results': typeof ListResultsRoute
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/list/lessons'
     | '/list/messages'
     | '/list/parents'
+    | '/list/results'
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/list/lessons'
     | '/list/messages'
     | '/list/parents'
+    | '/list/results'
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
@@ -262,6 +273,7 @@ export interface FileRouteTypes {
     | '/list/lessons'
     | '/list/messages'
     | '/list/parents'
+    | '/list/results'
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   ListLessonsRoute: typeof ListLessonsRoute
   ListMessagesRoute: typeof ListMessagesRoute
   ListParentsRoute: typeof ListParentsRoute
+  ListResultsRoute: typeof ListResultsRoute
   ListStudentsRoute: typeof ListStudentsRoute
   ListSubjectsRoute: typeof ListSubjectsRoute
   ListTeachersRoute: typeof ListTeachersRoute
@@ -367,6 +380,13 @@ declare module '@tanstack/react-router' {
       path: '/list/students'
       fullPath: '/list/students'
       preLoaderRoute: typeof ListStudentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/list/results': {
+      id: '/list/results'
+      path: '/list/results'
+      fullPath: '/list/results'
+      preLoaderRoute: typeof ListResultsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list/parents': {
@@ -453,6 +473,7 @@ const rootRouteChildren: RootRouteChildren = {
   ListLessonsRoute: ListLessonsRoute,
   ListMessagesRoute: ListMessagesRoute,
   ListParentsRoute: ListParentsRoute,
+  ListResultsRoute: ListResultsRoute,
   ListStudentsRoute: ListStudentsRoute,
   ListSubjectsRoute: ListSubjectsRoute,
   ListTeachersRoute: ListTeachersRoute,
