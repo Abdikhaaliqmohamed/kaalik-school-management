@@ -14,7 +14,7 @@ const iconFor: Record<string, any> = {
 };
 
 export function Menu() {
-  const { role, setRole, signOut } = useAuth();
+  const { role, signOut } = useAuth();
   const nav = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const links = roleLinks[role];
@@ -62,18 +62,8 @@ export function Menu() {
         </button>
       </nav>
 
-      <div className="mt-auto p-2">
-        <label className="text-[11px] uppercase tracking-wider text-muted-foreground">View as</label>
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value as any)}
-          className="mt-1 w-full text-sm bg-muted rounded-md px-2 py-1.5 border border-border"
-        >
-          <option value="admin">Admin</option>
-          <option value="teacher">Teacher</option>
-          <option value="student">Student</option>
-          <option value="parent">Parent</option>
-        </select>
+      <div className="mt-auto px-2 py-3 text-[11px] text-muted-foreground capitalize">
+        Signed in as <span className="font-medium text-foreground">{role}</span>
       </div>
     </aside>
   );

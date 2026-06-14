@@ -17,6 +17,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ParentRouteImport } from './routes/parent'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReportCardStudentIdRouteImport } from './routes/report-card.$studentId'
 import { Route as ListTeachersRouteImport } from './routes/list/teachers'
 import { Route as ListSubjectsRouteImport } from './routes/list/subjects'
 import { Route as ListStudentsRouteImport } from './routes/list/students'
@@ -69,6 +70,11 @@ const AdminRoute = AdminRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportCardStudentIdRoute = ReportCardStudentIdRouteImport.update({
+  id: '/report-card/$studentId',
+  path: '/report-card/$studentId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListTeachersRoute = ListTeachersRouteImport.update({
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
+  '/report-card/$studentId': typeof ReportCardStudentIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
+  '/report-card/$studentId': typeof ReportCardStudentIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
+  '/report-card/$studentId': typeof ReportCardStudentIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -231,6 +240,7 @@ export interface FileRouteTypes {
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
+    | '/report-card/$studentId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
+    | '/report-card/$studentId'
   id:
     | '__root__'
     | '/'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
+    | '/report-card/$studentId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -301,6 +313,7 @@ export interface RootRouteChildren {
   ListStudentsRoute: typeof ListStudentsRoute
   ListSubjectsRoute: typeof ListSubjectsRoute
   ListTeachersRoute: typeof ListTeachersRoute
+  ReportCardStudentIdRoute: typeof ReportCardStudentIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -359,6 +372,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report-card/$studentId': {
+      id: '/report-card/$studentId'
+      path: '/report-card/$studentId'
+      fullPath: '/report-card/$studentId'
+      preLoaderRoute: typeof ReportCardStudentIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list/teachers': {
@@ -477,17 +497,8 @@ const rootRouteChildren: RootRouteChildren = {
   ListStudentsRoute: ListStudentsRoute,
   ListSubjectsRoute: ListSubjectsRoute,
   ListTeachersRoute: ListTeachersRoute,
+  ReportCardStudentIdRoute: ReportCardStudentIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
