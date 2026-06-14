@@ -10,35 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeacherRouteImport } from './routes/teacher'
-import { Route as StudentRouteImport } from './routes/student'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as ParentRouteImport } from './routes/parent'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListTeachersRouteImport } from './routes/list/teachers'
 import { Route as ListSubjectsRouteImport } from './routes/list/subjects'
 import { Route as ListStudentsRouteImport } from './routes/list/students'
-import { Route as ListResultsRouteImport } from './routes/list/results'
 import { Route as ListParentsRouteImport } from './routes/list/parents'
 import { Route as ListMessagesRouteImport } from './routes/list/messages'
 import { Route as ListLessonsRouteImport } from './routes/list/lessons'
-import { Route as ListExamsRouteImport } from './routes/list/exams'
 import { Route as ListEventsRouteImport } from './routes/list/events'
 import { Route as ListClassesRouteImport } from './routes/list/classes'
-import { Route as ListAttendanceRouteImport } from './routes/list/attendance'
 import { Route as ListAssignmentsRouteImport } from './routes/list/assignments'
 import { Route as ListAnnouncementsRouteImport } from './routes/list/announcements'
 
 const TeacherRoute = TeacherRouteImport.update({
   id: '/teacher',
   path: '/teacher',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudentRoute = StudentRouteImport.update({
-  id: '/student',
-  path: '/student',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -54,11 +44,6 @@ const SettingsRoute = SettingsRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ParentRoute = ParentRouteImport.update({
-  id: '/parent',
-  path: '/parent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -86,11 +71,6 @@ const ListStudentsRoute = ListStudentsRouteImport.update({
   path: '/list/students',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ListResultsRoute = ListResultsRouteImport.update({
-  id: '/list/results',
-  path: '/list/results',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ListParentsRoute = ListParentsRouteImport.update({
   id: '/list/parents',
   path: '/list/parents',
@@ -106,11 +86,6 @@ const ListLessonsRoute = ListLessonsRouteImport.update({
   path: '/list/lessons',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ListExamsRoute = ListExamsRouteImport.update({
-  id: '/list/exams',
-  path: '/list/exams',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ListEventsRoute = ListEventsRouteImport.update({
   id: '/list/events',
   path: '/list/events',
@@ -119,11 +94,6 @@ const ListEventsRoute = ListEventsRouteImport.update({
 const ListClassesRoute = ListClassesRouteImport.update({
   id: '/list/classes',
   path: '/list/classes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ListAttendanceRoute = ListAttendanceRouteImport.update({
-  id: '/list/attendance',
-  path: '/list/attendance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ListAssignmentsRoute = ListAssignmentsRouteImport.update({
@@ -140,22 +110,17 @@ const ListAnnouncementsRoute = ListAnnouncementsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/parent': typeof ParentRoute
   '/profile': typeof ProfileRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
-  '/student': typeof StudentRoute
   '/teacher': typeof TeacherRoute
   '/list/announcements': typeof ListAnnouncementsRoute
   '/list/assignments': typeof ListAssignmentsRoute
-  '/list/attendance': typeof ListAttendanceRoute
   '/list/classes': typeof ListClassesRoute
   '/list/events': typeof ListEventsRoute
-  '/list/exams': typeof ListExamsRoute
   '/list/lessons': typeof ListLessonsRoute
   '/list/messages': typeof ListMessagesRoute
   '/list/parents': typeof ListParentsRoute
-  '/list/results': typeof ListResultsRoute
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
@@ -163,22 +128,17 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/parent': typeof ParentRoute
   '/profile': typeof ProfileRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
-  '/student': typeof StudentRoute
   '/teacher': typeof TeacherRoute
   '/list/announcements': typeof ListAnnouncementsRoute
   '/list/assignments': typeof ListAssignmentsRoute
-  '/list/attendance': typeof ListAttendanceRoute
   '/list/classes': typeof ListClassesRoute
   '/list/events': typeof ListEventsRoute
-  '/list/exams': typeof ListExamsRoute
   '/list/lessons': typeof ListLessonsRoute
   '/list/messages': typeof ListMessagesRoute
   '/list/parents': typeof ListParentsRoute
-  '/list/results': typeof ListResultsRoute
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
@@ -187,22 +147,17 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/parent': typeof ParentRoute
   '/profile': typeof ProfileRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
-  '/student': typeof StudentRoute
   '/teacher': typeof TeacherRoute
   '/list/announcements': typeof ListAnnouncementsRoute
   '/list/assignments': typeof ListAssignmentsRoute
-  '/list/attendance': typeof ListAttendanceRoute
   '/list/classes': typeof ListClassesRoute
   '/list/events': typeof ListEventsRoute
-  '/list/exams': typeof ListExamsRoute
   '/list/lessons': typeof ListLessonsRoute
   '/list/messages': typeof ListMessagesRoute
   '/list/parents': typeof ListParentsRoute
-  '/list/results': typeof ListResultsRoute
   '/list/students': typeof ListStudentsRoute
   '/list/subjects': typeof ListSubjectsRoute
   '/list/teachers': typeof ListTeachersRoute
@@ -212,22 +167,17 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
-    | '/parent'
     | '/profile'
     | '/settings'
     | '/sign-in'
-    | '/student'
     | '/teacher'
     | '/list/announcements'
     | '/list/assignments'
-    | '/list/attendance'
     | '/list/classes'
     | '/list/events'
-    | '/list/exams'
     | '/list/lessons'
     | '/list/messages'
     | '/list/parents'
-    | '/list/results'
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
@@ -235,22 +185,17 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
-    | '/parent'
     | '/profile'
     | '/settings'
     | '/sign-in'
-    | '/student'
     | '/teacher'
     | '/list/announcements'
     | '/list/assignments'
-    | '/list/attendance'
     | '/list/classes'
     | '/list/events'
-    | '/list/exams'
     | '/list/lessons'
     | '/list/messages'
     | '/list/parents'
-    | '/list/results'
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
@@ -258,22 +203,17 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
-    | '/parent'
     | '/profile'
     | '/settings'
     | '/sign-in'
-    | '/student'
     | '/teacher'
     | '/list/announcements'
     | '/list/assignments'
-    | '/list/attendance'
     | '/list/classes'
     | '/list/events'
-    | '/list/exams'
     | '/list/lessons'
     | '/list/messages'
     | '/list/parents'
-    | '/list/results'
     | '/list/students'
     | '/list/subjects'
     | '/list/teachers'
@@ -282,22 +222,17 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  ParentRoute: typeof ParentRoute
   ProfileRoute: typeof ProfileRoute
   SettingsRoute: typeof SettingsRoute
   SignInRoute: typeof SignInRoute
-  StudentRoute: typeof StudentRoute
   TeacherRoute: typeof TeacherRoute
   ListAnnouncementsRoute: typeof ListAnnouncementsRoute
   ListAssignmentsRoute: typeof ListAssignmentsRoute
-  ListAttendanceRoute: typeof ListAttendanceRoute
   ListClassesRoute: typeof ListClassesRoute
   ListEventsRoute: typeof ListEventsRoute
-  ListExamsRoute: typeof ListExamsRoute
   ListLessonsRoute: typeof ListLessonsRoute
   ListMessagesRoute: typeof ListMessagesRoute
   ListParentsRoute: typeof ListParentsRoute
-  ListResultsRoute: typeof ListResultsRoute
   ListStudentsRoute: typeof ListStudentsRoute
   ListSubjectsRoute: typeof ListSubjectsRoute
   ListTeachersRoute: typeof ListTeachersRoute
@@ -310,13 +245,6 @@ declare module '@tanstack/react-router' {
       path: '/teacher'
       fullPath: '/teacher'
       preLoaderRoute: typeof TeacherRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/student': {
-      id: '/student'
-      path: '/student'
-      fullPath: '/student'
-      preLoaderRoute: typeof StudentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -338,13 +266,6 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/parent': {
-      id: '/parent'
-      path: '/parent'
-      fullPath: '/parent'
-      preLoaderRoute: typeof ParentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -382,13 +303,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListStudentsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/list/results': {
-      id: '/list/results'
-      path: '/list/results'
-      fullPath: '/list/results'
-      preLoaderRoute: typeof ListResultsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/list/parents': {
       id: '/list/parents'
       path: '/list/parents'
@@ -410,13 +324,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ListLessonsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/list/exams': {
-      id: '/list/exams'
-      path: '/list/exams'
-      fullPath: '/list/exams'
-      preLoaderRoute: typeof ListExamsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/list/events': {
       id: '/list/events'
       path: '/list/events'
@@ -429,13 +336,6 @@ declare module '@tanstack/react-router' {
       path: '/list/classes'
       fullPath: '/list/classes'
       preLoaderRoute: typeof ListClassesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/list/attendance': {
-      id: '/list/attendance'
-      path: '/list/attendance'
-      fullPath: '/list/attendance'
-      preLoaderRoute: typeof ListAttendanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/list/assignments': {
@@ -458,22 +358,17 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  ParentRoute: ParentRoute,
   ProfileRoute: ProfileRoute,
   SettingsRoute: SettingsRoute,
   SignInRoute: SignInRoute,
-  StudentRoute: StudentRoute,
   TeacherRoute: TeacherRoute,
   ListAnnouncementsRoute: ListAnnouncementsRoute,
   ListAssignmentsRoute: ListAssignmentsRoute,
-  ListAttendanceRoute: ListAttendanceRoute,
   ListClassesRoute: ListClassesRoute,
   ListEventsRoute: ListEventsRoute,
-  ListExamsRoute: ListExamsRoute,
   ListLessonsRoute: ListLessonsRoute,
   ListMessagesRoute: ListMessagesRoute,
   ListParentsRoute: ListParentsRoute,
-  ListResultsRoute: ListResultsRoute,
   ListStudentsRoute: ListStudentsRoute,
   ListSubjectsRoute: ListSubjectsRoute,
   ListTeachersRoute: ListTeachersRoute,
@@ -481,3 +376,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
