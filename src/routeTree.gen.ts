@@ -13,6 +13,7 @@ import { Route as TeacherRouteImport } from './routes/teacher'
 import { Route as StudentRouteImport } from './routes/student'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SchoolRouteImport } from './routes/school'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ParentRouteImport } from './routes/parent'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -50,6 +51,11 @@ const SignInRoute = SignInRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolRoute = SchoolRouteImport.update({
+  id: '/school',
+  path: '/school',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/parent': typeof ParentRoute
   '/profile': typeof ProfileRoute
+  '/school': typeof SchoolRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
   '/student': typeof StudentRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/parent': typeof ParentRoute
   '/profile': typeof ProfileRoute
+  '/school': typeof SchoolRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
   '/student': typeof StudentRoute
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/parent': typeof ParentRoute
   '/profile': typeof ProfileRoute
+  '/school': typeof SchoolRoute
   '/settings': typeof SettingsRoute
   '/sign-in': typeof SignInRoute
   '/student': typeof StudentRoute
@@ -223,6 +232,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/parent'
     | '/profile'
+    | '/school'
     | '/settings'
     | '/sign-in'
     | '/student'
@@ -247,6 +257,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/parent'
     | '/profile'
+    | '/school'
     | '/settings'
     | '/sign-in'
     | '/student'
@@ -271,6 +282,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/parent'
     | '/profile'
+    | '/school'
     | '/settings'
     | '/sign-in'
     | '/student'
@@ -296,6 +308,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   ParentRoute: typeof ParentRoute
   ProfileRoute: typeof ProfileRoute
+  SchoolRoute: typeof SchoolRoute
   SettingsRoute: typeof SettingsRoute
   SignInRoute: typeof SignInRoute
   StudentRoute: typeof StudentRoute
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school': {
+      id: '/school'
+      path: '/school'
+      fullPath: '/school'
+      preLoaderRoute: typeof SchoolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -480,6 +500,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   ParentRoute: ParentRoute,
   ProfileRoute: ProfileRoute,
+  SchoolRoute: SchoolRoute,
   SettingsRoute: SettingsRoute,
   SignInRoute: SignInRoute,
   StudentRoute: StudentRoute,

@@ -22,11 +22,23 @@ function Page() {
     queryKey: ["report-card", studentId],
     queryFn: async () => {
       const [stu, res, gpa, att] = await Promise.all([
-        supabase.from("students").select("name,grade,classes(name)").eq("id", studentId).maybeSingle(),
+        supabase.from("students").select("name,grade,photo_url,classes(name)").eq("id", studentId).maybeSingle(),
         supabase.from("results").select("marks,exams(title,max_marks,term,exam_date,subjects(name))").eq("student_id", studentId).order("created_at"),
         supabase.rpc("gpa_for_student", { _student_id: studentId }),
         supabase.from("attendance").select("status").eq("student_id", studentId),
       ]);
+      // Compute rank: count of students with strictly higher GPA + 1
+      const peers = await supabase.from("students").select("id");
+      let rank = 1, cohort = peers.data?.length ?? 0;
+      if (peers.data && gpa.data != null) {
+        const myGpa = Number(gpa.data);
+        const others = await Promise.all(
+          peers.data.filter((p) => p.id !== studentId).map((p) =>
+            supabase.rpc("gpa_for_student", { _student_id: p.id }).then((r) => Number(r.data ?? 0))
+          )
+        );
+        rank = 1 + others.filter((g) => g > myGpa).length;
+      }
       const a = att.data ?? [];
       const present = a.filter((r: any) => r.status === "present" || r.status === "late").length;
       return {
@@ -34,6 +46,7 @@ function Page() {
         results: res.data ?? [],
         gpa: Number(gpa.data ?? 0),
         attPct: a.length ? Math.round((present / a.length) * 100) : 0,
+        rank, cohort,
       };
     },
   });
@@ -48,21 +61,34 @@ function Page() {
           </button>
         </div>
 
-        <header className="text-center border-b pb-4">
-          <div className="flex items-center justify-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-lama-sky grid place-items-center font-bold">K</div>
-            <div className="text-left">
-              <div className="font-bold text-lg">KAALIK Private High School</div>
-              <div className="text-xs text-muted-foreground">Academic Performance Report</div>
+        <header className="border-b pb-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-xl bg-lama-sky grid place-items-center font-bold text-2xl">K</div>
+            <div>
+              <div className="font-bold text-lg leading-tight">KAALIK Private High School</div>
+              <div className="text-xs text-muted-foreground">Knowledge · Discipline · Service</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">Academic Year 2026 / 2027 · Mogadishu, Somalia</div>
             </div>
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Official Report Card</div>
+            <div className="text-xs text-muted-foreground">Issued {new Date().toLocaleDateString()}</div>
           </div>
         </header>
 
-        <section className="grid grid-cols-2 gap-4 mt-6 text-sm">
-          <div><div className="text-xs text-muted-foreground">Student</div><div className="font-semibold">{data?.student?.name ?? "—"}</div></div>
-          <div><div className="text-xs text-muted-foreground">Class</div><div className="font-semibold">{(data?.student as any)?.classes?.name ?? data?.student?.grade ?? "—"}</div></div>
-          <div><div className="text-xs text-muted-foreground">GPA (4.0)</div><div className="font-semibold text-lama-sky text-xl">{(data?.gpa ?? 0).toFixed(2)}</div></div>
-          <div><div className="text-xs text-muted-foreground">Attendance</div><div className="font-semibold text-xl">{data?.attPct ?? 0}%</div></div>
+        <section className="mt-6 flex gap-5 items-start">
+          <div className="w-24 h-28 rounded-xl border bg-muted overflow-hidden grid place-items-center text-2xl font-bold text-muted-foreground shrink-0">
+            {(data?.student as any)?.photo_url
+              ? <img src={(data?.student as any).photo_url} alt={(data?.student as any)?.name ?? ""} className="w-full h-full object-cover" />
+              : ((data?.student as any)?.name?.charAt(0) ?? "?")}
+          </div>
+          <div className="grid grid-cols-2 gap-4 text-sm flex-1">
+            <div><div className="text-xs text-muted-foreground">Student Name</div><div className="font-semibold">{(data?.student as any)?.name ?? "—"}</div></div>
+            <div><div className="text-xs text-muted-foreground">Class</div><div className="font-semibold">{(data?.student as any)?.classes?.name ?? (data?.student as any)?.grade ?? "—"}</div></div>
+            <div><div className="text-xs text-muted-foreground">GPA (4.0)</div><div className="font-semibold text-lama-sky text-xl">{(data?.gpa ?? 0).toFixed(2)}</div></div>
+            <div><div className="text-xs text-muted-foreground">Class Rank</div><div className="font-semibold text-xl">{data?.rank ?? "—"} <span className="text-xs text-muted-foreground font-normal">/ {data?.cohort ?? "—"}</span></div></div>
+            <div className="col-span-2"><div className="text-xs text-muted-foreground">Attendance</div><div className="font-semibold text-xl">{data?.attPct ?? 0}%</div></div>
+          </div>
         </section>
 
         <section className="mt-6">
@@ -91,10 +117,21 @@ function Page() {
           </table>
         </section>
 
-        <footer className="mt-8 grid grid-cols-2 gap-6 text-xs text-muted-foreground">
-          <div className="border-t pt-2">Class Teacher signature</div>
-          <div className="border-t pt-2">Principal signature</div>
+        <footer className="mt-10 grid grid-cols-2 gap-10 text-xs">
+          <div>
+            <div className="h-10 border-b border-dashed" />
+            <div className="mt-1 text-muted-foreground">Class Teacher</div>
+            <div className="font-medium text-foreground">Ms. Maryan Ismail</div>
+          </div>
+          <div>
+            <div className="h-10 border-b border-dashed" />
+            <div className="mt-1 text-muted-foreground">Principal</div>
+            <div className="font-medium text-foreground">Mr. Hassan Nur</div>
+          </div>
         </footer>
+        <div className="mt-6 text-center text-[10px] text-muted-foreground print:block">
+          KAALIK Private High School · Hodan District, Mogadishu · info@kaalik.edu
+        </div>
       </div>
     </div>
   );
