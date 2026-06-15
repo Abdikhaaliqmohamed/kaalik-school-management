@@ -22,7 +22,7 @@ function Page() {
     queryKey: ["report-card", studentId],
     queryFn: async () => {
       const [stu, res, gpa, att] = await Promise.all([
-        supabase.from("students").select("name,grade,photo,classes(name)").eq("id", studentId).maybeSingle(),
+        supabase.from("students").select("name,grade,photo_url,classes(name)").eq("id", studentId).maybeSingle(),
         supabase.from("results").select("marks,exams(title,max_marks,term,exam_date,subjects(name))").eq("student_id", studentId).order("created_at"),
         supabase.rpc("gpa_for_student", { _student_id: studentId }),
         supabase.from("attendance").select("status").eq("student_id", studentId),
@@ -78,13 +78,13 @@ function Page() {
 
         <section className="mt-6 flex gap-5 items-start">
           <div className="w-24 h-28 rounded-xl border bg-muted overflow-hidden grid place-items-center text-2xl font-bold text-muted-foreground shrink-0">
-            {(data?.student as any)?.photo
-              ? <img src={(data?.student as any).photo} alt={data?.student?.name ?? ""} className="w-full h-full object-cover" />
-              : (data?.student?.name?.charAt(0) ?? "?")}
+            {(data?.student as any)?.photo_url
+              ? <img src={(data?.student as any).photo_url} alt={(data?.student as any)?.name ?? ""} className="w-full h-full object-cover" />
+              : ((data?.student as any)?.name?.charAt(0) ?? "?")}
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm flex-1">
-            <div><div className="text-xs text-muted-foreground">Student Name</div><div className="font-semibold">{data?.student?.name ?? "—"}</div></div>
-            <div><div className="text-xs text-muted-foreground">Class</div><div className="font-semibold">{(data?.student as any)?.classes?.name ?? data?.student?.grade ?? "—"}</div></div>
+            <div><div className="text-xs text-muted-foreground">Student Name</div><div className="font-semibold">{(data?.student as any)?.name ?? "—"}</div></div>
+            <div><div className="text-xs text-muted-foreground">Class</div><div className="font-semibold">{(data?.student as any)?.classes?.name ?? (data?.student as any)?.grade ?? "—"}</div></div>
             <div><div className="text-xs text-muted-foreground">GPA (4.0)</div><div className="font-semibold text-lama-sky text-xl">{(data?.gpa ?? 0).toFixed(2)}</div></div>
             <div><div className="text-xs text-muted-foreground">Class Rank</div><div className="font-semibold text-xl">{data?.rank ?? "—"} <span className="text-xs text-muted-foreground font-normal">/ {data?.cohort ?? "—"}</span></div></div>
             <div className="col-span-2"><div className="text-xs text-muted-foreground">Attendance</div><div className="font-semibold text-xl">{data?.attPct ?? 0}%</div></div>
