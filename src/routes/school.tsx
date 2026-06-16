@@ -77,6 +77,28 @@ function SchoolPage() {
             </ul>
           </div>
         </section>
+
+        <section className="bg-white rounded-2xl border p-6">
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold">Demo Accounts</h2>
+            <span className="text-[11px] uppercase tracking-wider text-muted-foreground">For graduation demo</span>
+          </div>
+          <p className="text-sm text-muted-foreground mt-1">Use these accounts during the presentation to demonstrate each role.</p>
+          <div className="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
+            {[
+              { role: "Admin",   email: "admin@kaalik.edu.so",   pw: "Admin123!",   color: "bg-red-50 text-red-700 border-red-200" },
+              { role: "Teacher", email: "teacher@kaalik.edu.so", pw: "Teacher123!", color: "bg-amber-50 text-amber-700 border-amber-200" },
+              { role: "Student", email: "student@kaalik.edu.so", pw: "Student123!", color: "bg-blue-50 text-blue-700 border-blue-200" },
+              { role: "Parent",  email: "parent@kaalik.edu.so",  pw: "Parent123!",  color: "bg-green-50 text-green-700 border-green-200" },
+            ].map((a) => (
+              <div key={a.role} className="rounded-xl border p-3">
+                <div className={`inline-block text-[11px] font-semibold px-2 py-0.5 rounded-md border ${a.color}`}>{a.role}</div>
+                <div className="mt-2 font-mono text-xs break-all">{a.email}</div>
+                <div className="font-mono text-xs text-muted-foreground">Password: {a.pw}</div>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   );
