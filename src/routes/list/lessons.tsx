@@ -1,13 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ListPage } from "@/components/ListPage";
-import { Table } from "@/components/Table";
-import { lessonsData } from "@/lib/data";
-export const Route = createFileRoute("/list/lessons")({ component: Page });
-function Page() {
-  return (
-    <ListPage title="All Lessons">
-      <Table columns={[{header:"Subject",accessor:"subject"},{header:"Class",accessor:"class"},{header:"Teacher",accessor:"teacher"}]} data={lessonsData}
-        renderRow={(l) => (<tr key={l.id} className="border-t"><td className="py-3 font-medium">{l.subject}</td><td className="text-xs">{l.class}</td><td className="text-xs">{l.teacher}</td></tr>)} />
-    </ListPage>
-  );
-}
+import { CrudList } from "@/components/CrudList";
+export const Route = createFileRoute("/list/lessons")({
+  component: () => (
+    <CrudList
+      table="lessons"
+      title="Lessons"
+      fields={[
+        { name: "subject_id", label: "Subject", type: "subject", required: true },
+        { name: "class_id", label: "Class", type: "class", required: true },
+        { name: "teacher_id", label: "Teacher", type: "teacher" },
+        { name: "day", label: "Day", type: "select", options: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] },
+        { name: "start_time", label: "Start", type: "time" },
+        { name: "end_time", label: "End", type: "time" },
+      ]}
+      columns={[
+        { header: "Subject", accessor: "subject" },
+        { header: "Class", accessor: "class" },
+        { header: "Teacher", accessor: "teacher" },
+        { header: "Day", accessor: "day" },
+        { header: "Start", accessor: "start_time" },
+      ]}
+    />
+  ),
+});

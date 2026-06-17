@@ -1,13 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ListPage } from "@/components/ListPage";
-import { Table } from "@/components/Table";
-import { eventsData } from "@/lib/data";
-export const Route = createFileRoute("/list/events")({ component: Page });
-function Page() {
-  return (
-    <ListPage title="All Events">
-      <Table columns={[{header:"Title",accessor:"title"},{header:"Class",accessor:"class"},{header:"Date",accessor:"date"},{header:"Start",accessor:"start"},{header:"End",accessor:"end"}]} data={eventsData}
-        renderRow={(e) => (<tr key={e.id} className="border-t"><td className="py-3 font-medium">{e.title}</td><td className="text-xs">{e.class}</td><td className="text-xs">{e.date}</td><td className="text-xs">{e.startTime}</td><td className="text-xs">{e.endTime}</td></tr>)} />
-    </ListPage>
-  );
-}
+import { CrudList } from "@/components/CrudList";
+export const Route = createFileRoute("/list/events")({
+  component: () => (
+    <CrudList
+      table="events"
+      title="Events"
+      fields={[
+        { name: "title", label: "Title", required: true },
+        { name: "description", label: "Description", type: "textarea" },
+        { name: "class_id", label: "Class", type: "class" },
+        { name: "date", label: "Date", type: "date", required: true },
+        { name: "start_time", label: "Start time", type: "time" },
+        { name: "end_time", label: "End time", type: "time" },
+      ]}
+      columns={[
+        { header: "Title", accessor: "title" },
+        { header: "Class", accessor: "class" },
+        { header: "Date", accessor: "date" },
+        { header: "Start", accessor: "start_time" },
+        { header: "End", accessor: "end_time" },
+      ]}
+    />
+  ),
+});
