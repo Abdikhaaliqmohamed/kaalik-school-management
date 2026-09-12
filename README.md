@@ -1,3 +1,10 @@
+Yes. I see the problem now. **Do not commit this version yet.** There are some things to clean up.
+
+The `[svg](...)` lines are GitHub-generated table-of-contents/link artifacts that should **not** be in your README. Also, you have extra `**svg**`, empty code blocks, and an incorrect/inconsistent GitHub username in some links.
+
+Here is the **clean version I recommend**. Replace everything in the README editor with this:
+
+````markdown
 # Kaalik School Management System
 
 A full-stack school management web application designed to help manage students, teachers, courses, attendance, and academic records.
@@ -109,9 +116,5 @@ Environment variables and sensitive configuration should be stored locally and m
 **Abdikhaliq Mohamed**
 
 Computer Engineering Graduate
-
----
-
-⭐ If you find this project useful, consider giving it a star.
 
 ```
