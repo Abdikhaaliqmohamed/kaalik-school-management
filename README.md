@@ -115,12 +115,3 @@ Computer Engineering Graduate
 ⭐ If you find this project useful, consider giving it a star.
 
 ```
-
-### Then
-
-1. Click **Preview** at the top.
-2. Look through it and make sure the formatting looks good.
-3. If everything looks good, click **Commit changes...**
-4. Use the default commit message.
-5. Commit it to `main`.
-
